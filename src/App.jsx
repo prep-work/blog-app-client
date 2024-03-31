@@ -1,12 +1,12 @@
 import React from 'react'
-import './App.css'
 
-function App() {
-    return (
-        <React.Fragment>
-            <h1>hello</h1>
-        </React.Fragment>
-    )
-}
+import 'bootstrap/dist/css/bootstrap.min.css'
+import NavbarComponent from './components/NavbarComponent/NavbarComponent'
+
+    const App = () => {
+        return (
+            <NavbarComponent/>
+        )
+    }
 
 export default App
