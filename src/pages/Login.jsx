@@ -1,11 +1,13 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import toast, { Toaster } from 'react-hot-toast'
 
 const Login = ({setIsLogin, isLogin}) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const emailHandler = (event) =>{
         setEmail(event.target.value)
@@ -35,11 +37,15 @@ const Login = ({setIsLogin, isLogin}) => {
             console.log(response)
             if (response.status == 200)
             {
-                console.log(isLogin)
+                toast.success('Logged in successfully!', {
+                    position: 'top-right'
+                })
+                setIsLogin(true)
                 const sessionID = response.data.data[0]
                 localStorage.setItem('SessionID', sessionID)
                 alert(`Welcome ${response.data.message}  !`)
-                window.location.href = '/'
+                // window.location.href = '/'
+                navigate('/')
             }
         })
         .catch((error) => {
@@ -91,6 +97,7 @@ const Login = ({setIsLogin, isLogin}) => {
                 </div>
             </div>
         </div>
+        <Toaster />
     </React.Fragment>
   )
 }

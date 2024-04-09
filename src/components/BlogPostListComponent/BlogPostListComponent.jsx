@@ -7,6 +7,7 @@ const BlogPostListComponent = ({blog}) => {
     const handleSubmit = () => {
         navigate('/blog', { state: {blogData: blog}})
     }
+    
     return (
         <div className="container mb-2" style={{ backgroundColor: "#f8f9fa", padding: "20px", border: "1px solid black"}}>
             <div className="row">

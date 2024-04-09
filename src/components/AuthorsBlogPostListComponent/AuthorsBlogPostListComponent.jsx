@@ -24,7 +24,6 @@ const AuthorsBlogPostListComponent = ({ blog }) => {
                 {
                     headers: {
                         'SessionID': 'SessionID=' + sessionID,
-                        'Content-Type': 'multipart/form-data'
                     }
                 }
             )

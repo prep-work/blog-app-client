@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import useBlogContext from '../hooks/useBlogContext'
 
 const WriteBlog = () => {
+
+    const sessionID = localStorage.getItem('SessionID')
+    if(!sessionID) {
+        window.location.href = '/login'
+    }
+
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [content, setContent] = useState('')

@@ -22,4 +22,10 @@
   .content {
     padding: 20px;
   }
+
+  .disabled-link {
+    pointer-events: none; /* Disable pointer events */
+    opacity: 0.5; /* Reduce opacity */
+    text-decoration: none !important; /* Remove underline */
+  }
   

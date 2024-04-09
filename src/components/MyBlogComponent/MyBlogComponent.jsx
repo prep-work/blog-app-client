@@ -17,10 +17,10 @@ const MyBlogComponent = () => {
                 }
             )
         .then((response) => {
-            setBlogPost(response.data)
+            setBlogPost(response.data.data)
         })
         .catch((error) => {
-            console.log(error)
+            alert(error.message)
         })
         
     }

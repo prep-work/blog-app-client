@@ -16,8 +16,13 @@ import EditBlogPostComponent from '../EditBlogPostComponent/EditBlogPostComponen
 
 
 const NavbarComponent = () => {
+    const sessionID = localStorage.getItem("SessionID")
+    const [isLogin, setIsLogin] = useState(sessionID !== "true")
 
-    const [isLogin, setIsLogin] = useState(false)
+    const handleSignout = () => {
+        localStorage.removeItem('SessionID')
+        window.location.href = '/login'
+    }
 
   return (
     <Router>
@@ -42,23 +47,23 @@ const NavbarComponent = () => {
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class="dropdown-item" href="#" style={{fontSize: "18px"}}>
+                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
                             <RiAccountBoxLine style={{ fontSize: "22px" }}/>  Profile
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#" style={{fontSize: "18px"}}>
+                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
                             <MdOutlineLibraryBooks style={{ fontSize: "22px" }}/>  Library
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="/my-blog" style={{fontSize: "18px"}}>
+                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="/my-blog" style={{fontSize: "18px"}}>
                             <TbChecklist style={{ fontSize: "22px" }}/>  My BlogPost
                             </a>
                         </li>
                         <li><hr class="dropdown-divider" /></li>
                         <li>
-                            <a class="dropdown-item" href="#" style={{fontSize: "18px"}}>
+                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}} onClick={handleSignout}>
                                 Sign out
                             </a>
                         </li>

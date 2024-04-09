@@ -1,25 +1,95 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import axios from 'axios'
 
-import { BiLike } from "react-icons/bi" // Like
-import { BiSolidLike } from "react-icons/bi" // Like fill
-import { BiDislike } from "react-icons/bi" // Dislike
-import { BiSolidDislike } from "react-icons/bi" // Dislike fill 
-import { MdOutlineBookmarkAdded } from "react-icons/md"; // Bookmark 
-import { GoBookmarkFill } from "react-icons/go"; // Bookmark fill 
+import { FaRegHeart } from "react-icons/fa" // Like
+import { FaHeart } from "react-icons/fa" // Like fill
+import { MdOutlineBookmarkAdded } from "react-icons/md" // Bookmark 
+import { GoBookmarkFill } from "react-icons/go" // Bookmark fill 
+import useBlogContext from '../../hooks/useBlogContext'
+import toast, { Toaster } from 'react-hot-toast'
 
 
 const BlogComponent = () => {
     let location = useLocation()
     const {blogData} = location.state || {}
-    console.log(blogData)
     const createdAt = (blogData.createdAt).split('T')[0]
+
+    const {blogPost, setBlogPost} = useBlogContext()
+
+    const [isBlogLiked, setIsBlogLiked] = useState(blogData.isUserLikedPost)
+    const [blogLikeCount, setBlogLikeCount] = useState(blogData.likesCount)
+
+    const toggleClick = () => {
+        setIsBlogLiked(!isBlogLiked)
+        setBlogLikeCount(prevCount => isBlogLiked ? prevCount -= 1 : prevCount += 1)
+        console.log(isBlogLiked)
+        sendLikeStatus()
+    }
+
+    const sessionID = localStorage.getItem('SessionID')
+
+    const sendLikeStatus = () => {
+        axios
+            .post(
+                `http://localhost:3500/api/v1/user/editLike/${blogData._id}`,
+                {
+                    isBlogLiked
+                },
+                {
+                    headers: {
+                        'SessionID': 'SessionID=' + sessionID,
+                    }
+                }
+            )
+        .then((response) => {
+            if(response.data && response.data.code == 201) {
+                toast.success('Liked', {
+                    position: 'bottom-left'
+                })
+                console.log('Updated successfully')
+            }
+            if(response.data && response.data.code == 200) {
+                toast.error('Disliked', {
+                    position: 'bottom-left'
+                })
+                console.log('Updated successfully')
+            }
+        })
+        .catch((error) => {
+            alert(`Status : ${error}`)
+        })
+    }
+
+    console.log(blogData._id)
+    useEffect(() => {
+        axios
+        .get(`http://localhost:3500/api/v1/user/blogLikes/${blogData._id}`,
+            {
+                headers: {
+                    'SessionID': 'SessionID=' + sessionID,
+                }
+            }
+        )
+        .then((response) => {
+            if(response.status == 200) {
+                console.log(response.data.data[0])
+                setBlogLikeCount(response.data.data[0].likesCount)
+                setIsBlogLiked(response.data.data[0].isUserLikedPost)
+            }
+        })
+
+    }, [])
+
+    const toggleBookmark = () => {
+
+    }
 
     return (
         <div className='container mt-4'>
             <div className="row">
                 <div className="col-md-2">
-                    left
+                    
                 </div>
                 <div className="col-md-8">
                     {/* Blog title and description  */}
@@ -42,19 +112,33 @@ const BlogComponent = () => {
                     </div>
 
                     {/* Like, dislike, post save  */}
-                    <div className="row flex-row" style={{ marginTop: "30px", paddingTop: "10px", paddingBottom: "10px", borderTop: "1px solid #D3D3D3", borderBottom: "1px solid #D3D3D3" }}>
-                        <div className="col-md-1">
-                            <BiLike style={{ fontSize: "30px" }}/>
+                    <div className="row flex-row" style={{ marginTop: "30px", paddingTop: "10px", paddingBottom: "10px", borderTop: "1px solid #D3D3D3", borderBottom: "1px solid #D3D3D3 " }}>
+                        {/* <div className="col-md-1 d-flex-row justify-content-center align-items-center">
+                            { !isBlogLiked 
+                                ? <FaRegHeart style={{ fontSize: "30px" }} onClick={toggleClick}/>
+                                : <FaHeart style={{ fontSize: "30px" }} onClick={toggleClick}/>
+                            }
+                            {
+                                blogLikeCount > 0 && blogLikeCount
+                            }
+                        </div> */}
+                        <div className="col-md-2 d-flex justify-content-center align-items-center">
+                            {!isBlogLiked ? (
+                                <FaRegHeart style={{ fontSize: "30px", marginRight: "15px" }} onClick={toggleClick} />
+                            ) : (
+                                <FaHeart style={{ fontSize: "30px", marginRight: "15px" }} onClick={toggleClick} />
+                            )}
+                             <span>{blogLikeCount}</span>
                         </div>
                         <div className="col-md-1">
-                            <BiDislike style={{ fontSize: "29px" }}/>
+                            <MdOutlineBookmarkAdded style={{ fontSize: "29px" }} onClick={toggleBookmark}/>
                         </div>
                         <div className="col-md-8">
 
                         </div>
-                        <div className="col-md-2">
+                        {/* <div className="col-md-2">
                             <MdOutlineBookmarkAdded style={{ fontSize: "30px" }}/>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Blog image  */}
@@ -95,10 +179,11 @@ const BlogComponent = () => {
 
                 </div>
                 <div className="col-md-2">
-                    right
+                    
                 </div>
             </div>
 
+            <Toaster />
         </div>
     )
 }
