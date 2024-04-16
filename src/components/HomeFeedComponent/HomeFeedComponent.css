@@ -1,0 +1,148 @@
+/* .blog-post-container {
+    background-color: #f8f9fa;
+    padding: 1.25rem;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    margin-bottom: 1rem; 
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .blog-post-container:hover {
+    box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1); 
+    transform: scale(1.02); 
+  }
+  
+  .blog-post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .author-info {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+  }
+  
+  .author-image {
+    margin-right: 0.625rem; 
+  }
+  
+  .author-details {
+    flex: 1; 
+  }
+  
+  .author-name {
+    margin-bottom: 0.3125rem; 
+  }
+  
+  .published-date {
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+  
+  .blog-post-image {
+    flex: 1; 
+  }
+  
+  .blog-post-content {
+    margin-bottom: 0.75rem; 
+  }
+  
+  .blog-post-title {
+    margin-bottom: 0.625rem; 
+  }
+  
+  .blog-post-description {
+    color: #333;
+  }
+  
+  /* Optional button styles (uncomment if needed) */
+  /* .read-more-button {
+    background-color: #333;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .read-more-button:hover {
+    background-color: #222;
+  }
+   */
+
+   .blog-post-container {
+    background-color: #f8f9fa;
+    padding: 1.25rem;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .blog-post-container:hover {
+    box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+  }
+  
+  .blog-post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .author-info {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+  }
+  
+  .author-image {
+    margin-right: 0.625rem;
+  }
+  
+  .author-details {
+    flex: 1;
+  }
+  
+  .author-name {
+    margin-bottom: 0.3125rem;
+  }
+  
+  .published-date {
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+  
+  .blog-post-image {
+    flex: 1;
+  }
+  
+  .blog-post-content {
+    margin-bottom: 0.75rem;
+  }
+  
+  .blog-post-title {
+    margin-bottom: 0.625rem;
+  }
+  
+  .blog-post-description {
+    color: #333;
+  }
+  
+  .read-more-button {
+    background-color: #333;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .read-more-button:hover {
+    background-color: #222;
+  }
+  

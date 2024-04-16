@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import BlogPostListComponent from '../components/BlogPostListComponent/BlogPostListComponent'
+import BlogPostListComponent from '../components/HomeFeedComponent/HomeFeedComponent.jsx'
 import useBlogContext from '../hooks/useBlogContext.jsx'
 
 const Home = () => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import AuthorsBlogPostListComponent from '../AuthorsBlogPostListComponent/AuthorsBlogPostListComponent'
+import AuthorsBlogPostListComponent from '../UserBlogListComponent/UserBlogListComponent'
 import axios from 'axios'
 
 const MyBlogComponent = () => {

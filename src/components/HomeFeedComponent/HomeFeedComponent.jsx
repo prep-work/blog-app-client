@@ -1,17 +1,18 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import'./HomeFeedComponent'
 
 const BlogPostListComponent = ({blog}) => {
     const navigate = useNavigate()
     const createdAt = blog.createdAt.split('T')[0]
-    const handleSubmit = () => {
+    const handleBlogClick = () => {
         navigate('/blog', { state: {blogData: blog}})
     }
     
     return (
         <div className="container mb-2" style={{ backgroundColor: "#f8f9fa", padding: "20px", border: "1px solid black"}}>
-            <div className="row">
-                <div className="col-md-8">
+            <div className="row" onClick={handleBlogClick}>
+                <div className="col-md-10">
                     <div className="row">
                         <div className="col-md-1">
                             <img src={blog.author.image} alt="" className="img-fluid rounded-circle" style={{ width: "50px", height: "50px" }} />
@@ -34,12 +35,13 @@ const BlogPostListComponent = ({blog}) => {
                 <div className="col-md-2">
                     <img src={blog.image} alt="" className="img-fluid" style={{ width: "200px", height: "200px", backgroundSize: "cover" }} />
                 </div>
-                <div className="col-md-2 d-flex justify-content-center align-items-center">
+                {/* <div className="col-md-2 d-flex justify-content-center align-items-center">
                     <button className="btn btn-primary" onClick={handleSubmit}>Read Post</button>
-                </div>
+                </div> */}
 
             </div>
         </div>
+        
     )
 }
 

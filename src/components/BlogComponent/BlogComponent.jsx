@@ -8,6 +8,7 @@ import { MdOutlineBookmarkAdded } from "react-icons/md" // Bookmark
 import { GoBookmarkFill } from "react-icons/go" // Bookmark fill 
 import useBlogContext from '../../hooks/useBlogContext'
 import toast, { Toaster } from 'react-hot-toast'
+import CommentSectionComponent from '../CommentSectionComponent/CommentSectionComponent'
 
 
 const BlogComponent = () => {
@@ -19,6 +20,9 @@ const BlogComponent = () => {
 
     const [isBlogLiked, setIsBlogLiked] = useState(blogData.isUserLikedPost)
     const [blogLikeCount, setBlogLikeCount] = useState(blogData.likesCount)
+
+    const [commentText, setCommentText] = useState('')
+    const [comments, setComments] = useState([])
 
     const toggleClick = () => {
         setIsBlogLiked(!isBlogLiked)
@@ -61,10 +65,9 @@ const BlogComponent = () => {
         })
     }
 
-    console.log(blogData._id)
     useEffect(() => {
         axios
-        .get(`http://localhost:3500/api/v1/user/blogLikes/${blogData._id}`,
+        .get(`http://localhost:3500/api/v1/user/blogDetails/${blogData._id}`,
             {
                 headers: {
                     'SessionID': 'SessionID=' + sessionID,
@@ -73,9 +76,9 @@ const BlogComponent = () => {
         )
         .then((response) => {
             if(response.status == 200) {
-                console.log(response.data.data[0])
-                setBlogLikeCount(response.data.data[0].likesCount)
+                setBlogLikeCount(response.data.data[0].likeCount)
                 setIsBlogLiked(response.data.data[0].isUserLikedPost)
+                setComments(response.data.data[0].comments)
             }
         })
 
@@ -85,11 +88,38 @@ const BlogComponent = () => {
 
     }
 
+    const handleCommentText = (event) => {
+        setCommentText(event.target.value)
+    }
+
+    const handleCommentPost = () => {
+        axios
+            .post(
+                `http://localhost:3500/api/v1/user/addComment/${blogData._id}`,
+                {
+                    commentText
+                },
+                {
+                    headers: {
+                        'SessionID': 'SessionID=' + sessionID,
+                    }
+                }
+            )
+        .then((response) => {
+            if(response.data && response.data.code == 201) {
+                console.log('Comment updated successfully')
+            }
+        })
+        .catch((error) => {
+            alert(`Status : ${error}`)
+        })
+    }
+
     return (
         <div className='container mt-4'>
             <div className="row">
                 <div className="col-md-2">
-                    
+
                 </div>
                 <div className="col-md-8">
                     {/* Blog title and description  */}
@@ -113,15 +143,7 @@ const BlogComponent = () => {
 
                     {/* Like, dislike, post save  */}
                     <div className="row flex-row" style={{ marginTop: "30px", paddingTop: "10px", paddingBottom: "10px", borderTop: "1px solid #D3D3D3", borderBottom: "1px solid #D3D3D3 " }}>
-                        {/* <div className="col-md-1 d-flex-row justify-content-center align-items-center">
-                            { !isBlogLiked 
-                                ? <FaRegHeart style={{ fontSize: "30px" }} onClick={toggleClick}/>
-                                : <FaHeart style={{ fontSize: "30px" }} onClick={toggleClick}/>
-                            }
-                            {
-                                blogLikeCount > 0 && blogLikeCount
-                            }
-                        </div> */}
+            
                         <div className="col-md-2 d-flex justify-content-center align-items-center">
                             {!isBlogLiked ? (
                                 <FaRegHeart style={{ fontSize: "30px", marginRight: "15px" }} onClick={toggleClick} />
@@ -160,29 +182,41 @@ const BlogComponent = () => {
 
                     <div className="row">
                         <div className="col-md-12">
-                            <textarea className="form-control" rows="3" placeholder="Write your comment"></textarea>
+                            <textarea className="form-control" rows="3" placeholder="Write your comment" value={commentText} onChange={handleCommentText}></textarea>
                         </div>
                     </div>
 
                     <div className="row" style={{paddingBottom: "20px", borderBottom: "1px solid #D3D3D3"}}>
-                            <div className="col-md-9">
+                            <div className="col-md-10">
 
                             </div>
-                            <div className="col-md-3" style={{marginTop: "20px"}}>
-                                <button className="btn btn-primary">Post Comment</button>
+                            <div className="col-md-2" style={{marginTop: "15px"}}>
+                                <button className="btn btn-primary" onClick={handleCommentPost}>Post Comment</button>
                             </div>
-                        </div>
+                    </div>
+
+                    <div className='row' style={{marginTop: "20px"}}>  
+                        {/* {comments[0].text} */}
+                        { comments && 
+                            comments.map( (comment, index) => (
+                                <div key={index}>
+                                    <CommentSectionComponent comment={comment}/>
+                                </div>
+                            ))
+                        }     
+                    </div>
 
                     <div className="row" style={{marginTop: "50px"}}>
 
                     </div>
-
                 </div>
                 <div className="col-md-2">
                     
                 </div>
             </div>
-
+            
+            
+            
             <Toaster />
         </div>
     )

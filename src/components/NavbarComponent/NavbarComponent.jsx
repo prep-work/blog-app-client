@@ -11,7 +11,7 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { RiAccountBoxLine } from "react-icons/ri";
 import { TbChecklist } from "react-icons/tb";
-import MyBlogComponent from '../MyBlogComponent/MyBlogComponent';
+import MyBlogComponent from '../UserBlogComponent/UserBlogComponent';
 import EditBlogPostComponent from '../EditBlogPostComponent/EditBlogPostComponent';
 
 
