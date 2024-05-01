@@ -1,0 +1,149 @@
+/* CommentComponent.css */
+.comment-container {
+    display: flex;
+    margin-bottom: 1em;
+    padding-bottom: 10px;
+  }
+  
+.comment-author-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-author-image img {
+    object-fit: contain;
+    width: 50px;
+    height: 50px;
+}
+
+.comment-author-info {
+    flex: 1;
+}
+
+.comment-author-name {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: .25em;
+}
+
+.comment-text {
+    /* margin-bottom: 1em; */
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.comment-like {
+    margin-left: .25em;
+}
+
+.comment-reply {
+    margin-left: 1.5em;
+}
+
+.caret-icon {
+    margin-right: .5em;
+}
+
+.reply-button {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    background: none;
+    color: blue;
+    border: none;
+    border-radius: 25px;
+    margin-top: 1em;
+    padding: .5em 1em;
+}
+
+.reply-button:hover {
+    background-color: rgb(212, 240, 255);
+}
+
+.comment-reply-section {
+    margin-top: 10px;
+    padding: 10px 0;
+}
+
+.comment-reply-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.comment-reply-textarea {
+width: 100%;
+padding: 8px;
+box-sizing: border-box;
+}
+
+.cancel-comment-button {
+    float: right;
+    margin-left: .5em;
+    padding: .5em 1em;
+    border: none;
+    border-radius: 50px; 
+    background-color:white; 
+    cursor: pointer;
+}
+.cancel-comment-button:hover {
+    background-color: rgb(180, 180, 180); 
+}
+
+.comment-button {
+    float: right;
+    padding: .5em 1em;
+    border: none;
+    border-radius: 50px; 
+    background-color: rgb(19, 35, 230); 
+    color: white; 
+    cursor: pointer;
+}
+
+.comment-button:hover {
+    background-color: rgb(19, 39, 255); 
+}
+
+.comment-button.disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+
+.comment-dropdown {
+position: relative;
+display: inline-block;
+}
+
+.comment-dropdown-menu {
+position: absolute;
+top: 100%;
+left: 0;
+z-index: 1;
+width: min-content;
+min-height: 2rem;
+background-color: #fff;
+box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+border-radius: 5px;
+padding: 5px;
+}
+
+.comment-dropdown-item {
+padding: 5px 10px;
+cursor: pointer;
+}
+
+.comment-reply-list {
+padding-left: 50px;
+}
+
+.reply-comment-container {
+    padding-left: 4em;
+}
+  

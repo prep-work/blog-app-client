@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import'./BlogComponent.css'
 import axios from 'axios'
 
 import { FaRegHeart } from "react-icons/fa" // Like
@@ -8,21 +9,26 @@ import { MdOutlineBookmarkAdded } from "react-icons/md" // Bookmark
 import { GoBookmarkFill } from "react-icons/go" // Bookmark fill 
 import useBlogContext from '../../hooks/useBlogContext'
 import toast, { Toaster } from 'react-hot-toast'
+import { FaRegComment } from "react-icons/fa"
+import { FiShare2 } from "react-icons/fi"
 import CommentSectionComponent from '../CommentSectionComponent/CommentSectionComponent'
+
 
 
 const BlogComponent = () => {
     let location = useLocation()
     const {blogData} = location.state || {}
     const createdAt = (blogData.createdAt).split('T')[0]
-
+    
     const {blogPost, setBlogPost} = useBlogContext()
-
+    
     const [isBlogLiked, setIsBlogLiked] = useState(blogData.isUserLikedPost)
     const [blogLikeCount, setBlogLikeCount] = useState(blogData.likesCount)
-
+    
     const [commentText, setCommentText] = useState('')
     const [comments, setComments] = useState([])
+
+    const commentSectionRef = useRef(null) 
 
     const toggleClick = () => {
         setIsBlogLiked(!isBlogLiked)
@@ -84,7 +90,18 @@ const BlogComponent = () => {
 
     }, [])
 
-    const toggleBookmark = () => {
+    const handleScrollToComments = () => {
+        window.scrollTo({
+            top: commentSectionRef.current.offsetTop + 1000,
+            behavior: "smooth"
+          })
+    }
+
+    const handleToggleBookmark = () => {
+
+    }
+
+    const handleShareClick = () => {
 
     }
 
@@ -116,109 +133,96 @@ const BlogComponent = () => {
     }
 
     return (
-        <div className='container mt-4'>
-            <div className="row">
-                <div className="col-md-2">
+        <div className='blog-container'>
+            {/* <div className="blog-sidebar">
 
+            </div> */}
+            <div className="blog-content">
+                {/* Blog title and description  */}
+                <div className="blog-title">
+                    <h1>{blogData.title}</h1>
+                    <h5 className="blog-description">
+                        {blogData.description}
+                    </h5>
                 </div>
-                <div className="col-md-8">
-                    {/* Blog title and description  */}
-                    <div className="row">
-                        <h1>{blogData.title}</h1>
-                        <h5 className=""style={{color: "#808080"}}>
-                            {blogData.description}
-                        </h5>
-                    </div>
 
-                    {/* Author Profile and created Date */}
-                    <div className="row" style={{ paddingTop: "30px" }}>
-                        <div className="col-md-1">
-                            <img src={blogData.author.image} alt="" className="img-fluid rounded-circle" style={{ width: "50px", height: "50px" }} />
-                        </div>
-                        <div className="col-md-6">
-                            <h5>{blogData.author.firstName} {blogData.author.lastName}</h5>
-                            <h5>{createdAt}</h5>
-                        </div>
+                {/* Author Profile and created Date */}
+                <div className="blog-author">
+                    <div className="blog-avatar">
+                        <img src={blogData.author.image} alt="" className="blog-author-image" />
                     </div>
+                    <div className="blog-author-info">
+                        <h5 className="blog-author-name">{blogData.author.firstName} {blogData.author.lastName}</h5>
+                        <h5 className="blog-published-date">Published on: {createdAt}</h5>
+                    </div>
+                </div>
 
-                    {/* Like, dislike, post save  */}
-                    <div className="row flex-row" style={{ marginTop: "30px", paddingTop: "10px", paddingBottom: "10px", borderTop: "1px solid #D3D3D3", borderBottom: "1px solid #D3D3D3 " }}>
-            
-                        <div className="col-md-2 d-flex justify-content-center align-items-center">
+                {/* Like, dislike, post save  */}
+                <div className="blog-interaction">
+                    <div className="blog-interaction-left-part">
+                        <div className="blog-like">
                             {!isBlogLiked ? (
-                                <FaRegHeart style={{ fontSize: "30px", marginRight: "15px" }} onClick={toggleClick} />
+                                <FaRegHeart className="blog-like-icon" onClick={toggleClick} />
                             ) : (
-                                <FaHeart style={{ fontSize: "30px", marginRight: "15px" }} onClick={toggleClick} />
+                                <FaHeart className="blog-like-icon" onClick={toggleClick} />
                             )}
-                             <span>{blogLikeCount}</span>
+                            <span>{blogLikeCount}</span>
                         </div>
-                        <div className="col-md-1">
-                            <MdOutlineBookmarkAdded style={{ fontSize: "29px" }} onClick={toggleBookmark}/>
-                        </div>
-                        <div className="col-md-8">
-
-                        </div>
-                        {/* <div className="col-md-2">
-                            <MdOutlineBookmarkAdded style={{ fontSize: "30px" }}/>
-                        </div> */}
-                    </div>
-
-                    {/* Blog image  */}
-                    <div className="row" style={{marginTop: "30px"}}>
-                        <img src={blogData.image} />
-                    </div>
-
-                    {/* Blog content  */}
-                    <div className="row" style={{marginTop: "30px"}}>
-                        <p>{blogData.blogContent}</p>
-                    </div>
-
-                    {/* comments */}
-                    <div className="row" style={{marginTop: "20px" , borderTop: "1px solid #D3D3D3"}}>
-                        <h4 style={{paddingTop: "10px"}}>
-                            Comments
-                        </h4>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-12">
-                            <textarea className="form-control" rows="3" placeholder="Write your comment" value={commentText} onChange={handleCommentText}></textarea>
+                        <div className="blog-comment" onClick={handleScrollToComments}>
+                            <FaRegComment className="blog-comment-icon"/>
+                            <span>{comments.length}</span>
                         </div>
                     </div>
-
-                    <div className="row" style={{paddingBottom: "20px", borderBottom: "1px solid #D3D3D3"}}>
-                            <div className="col-md-10">
-
-                            </div>
-                            <div className="col-md-2" style={{marginTop: "15px"}}>
-                                <button className="btn btn-primary" onClick={handleCommentPost}>Post Comment</button>
-                            </div>
-                    </div>
-
-                    <div className='row' style={{marginTop: "20px"}}>  
-                        {/* {comments[0].text} */}
-                        { comments && 
-                            comments.map( (comment, index) => (
-                                <div key={index}>
-                                    <CommentSectionComponent comment={comment}/>
-                                </div>
-                            ))
-                        }     
-                    </div>
-
-                    <div className="row" style={{marginTop: "50px"}}>
-
+                    <div className="blog-interaction-right-part">
+                        <div className="blog-bookmark">
+                            <MdOutlineBookmarkAdded className="blog-bookmark-icon" onClick={handleToggleBookmark}/>
+                        </div>
+                        <div className="blog-share">
+                            <FiShare2 className="blog-share-icon" onClick={handleShareClick}/>
+                        </div>
                     </div>
                 </div>
-                <div className="col-md-2">
-                    
+
+                {/* Blog image  */}
+                <div className="blog-image-container" style={{marginTop: "30px"}} ref={commentSectionRef}>
+                    <img src={blogData.image} className="blog-image-large" />
+                </div>
+
+                {/* Blog content  */}
+                <div className="blog-content-section" style={{marginTop: "30px"}}>
+                    <p>{blogData.blogContent}</p>
+                </div>
+
+                {/* comments */}
+                <div className="blog-comments-section" >
+                    <h4>
+                        Comments
+                    </h4>
+                </div>
+
+                <div className="blog-comment-input">
+                    <div className="blog-comment-textarea">
+                        <textarea className="comment-input" rows="3" placeholder="Write your comment" value={commentText} onChange={handleCommentText}></textarea>
+                    </div>
+                    <div className="blog-comment-button">
+                        <button className="cancel-comment-button" onClick={handleCommentPost}>Cancel</button>
+                        <button className={`comment-button ${commentText.length === 0 ? 'disabled' : ''}`} onClick={handleCommentPost} disabled={commentText.length === 0}>Comment</button>
+                    </div>
+                </div>
+
+                <div className='blog-comments'>  
+                    { comments && 
+                        comments.map( (comment, index) => (
+                            <div key={index}>
+                                <CommentSectionComponent comment={comment}/>
+                            </div>
+                        ))
+                    }     
                 </div>
             </div>
-            
-            
-            
             <Toaster />
         </div>
+
     )
 }
 

@@ -12,7 +12,7 @@ import { FaCaretUp } from "react-icons/fa"
 import { LuFlag } from "react-icons/lu"
 
 
-const CommentSectionComponent = ({comment}) => {
+const DummyComponent = ({comment}) => {
 
     const [replyText, setReplyText] = useState('')
     const [isReplying, setIsReplying] = useState(false)
@@ -149,7 +149,7 @@ const CommentSectionComponent = ({comment}) => {
             {replyComments && isShowingReplyComments &&
                         replyComments.map( (comment, index) => (
                             <div key={index} className="reply-comment-container">
-                                <CommentSectionComponent comment={comment}/>
+                                <DummyComponent comment={comment}/>
                             </div>
                         ))
                     }
@@ -158,4 +158,4 @@ const CommentSectionComponent = ({comment}) => {
     )
 }
 
-export default CommentSectionComponent
+export default DummyComponent

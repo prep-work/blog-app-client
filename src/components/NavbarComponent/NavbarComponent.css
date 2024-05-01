@@ -24,8 +24,13 @@
   }
 
   .disabled-link {
-    pointer-events: none; /* Disable pointer events */
-    opacity: 0.5; /* Reduce opacity */
-    text-decoration: none !important; /* Remove underline */
+    pointer-events: none; 
+    opacity: 0.5; 
+    text-decoration: none !important; /
   }
   
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

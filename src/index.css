@@ -1,17 +1,8 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+
 }
 
-.reply-button {
-    background: none;
-    color: blue;
-    border: none;
-    border-radius: 25px;
-    margin-top: 1em;
-    padding: .5em 1em;
-}
-
-.reply-button:hover {
-    background-color: rgb(212, 240, 255);
-}

@@ -4,7 +4,7 @@ import Home from '../../pages/Home';
 import Login from '../../pages/Login';
 import './NavbarComponent.css';
 import Signup from '../../pages/Signup';
-import WriteBlog from '../../pages/WriteBlog';
+import WriteBlogComponent from '../WriteBlogComponent/WriteBlogComponent';
 import BlogComponent from '../BlogComponent/BlogComponent';
 
 import { MdOutlineAccountCircle } from "react-icons/md";
@@ -27,7 +27,7 @@ const NavbarComponent = () => {
   return (
     <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">Home</Link>
             <div className="d-flex">
@@ -41,29 +41,29 @@ const NavbarComponent = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/write" style={{fontSize: "18px"}}>Write</Link>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle flex justify-content-center align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{fontSize: "18px"}}>
+                <li className="nav-item dropdown">
+                    <a className="nav-link dropdown-toggle flex justify-content-center align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{fontSize: "18px"}}>
                     <MdOutlineAccountCircle style={{ fontSize: "22px" }}/>  Account
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul className="dropdown-menu dropdown-menu-end">
                         <li>
-                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
+                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
                             <RiAccountBoxLine style={{ fontSize: "22px" }}/>  Profile
                             </a>
                         </li>
                         <li>
-                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
+                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
                             <MdOutlineLibraryBooks style={{ fontSize: "22px" }}/>  Library
                             </a>
                         </li>
                         <li>
-                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="/my-blog" style={{fontSize: "18px"}}>
+                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="/my-blog" style={{fontSize: "18px"}}>
                             <TbChecklist style={{ fontSize: "22px" }}/>  My BlogPost
                             </a>
                         </li>
-                        <li><hr class="dropdown-divider" /></li>
+                        <li><hr className="dropdown-divider" /></li>
                         <li>
-                            <a class={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}} onClick={handleSignout}>
+                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}} onClick={handleSignout}>
                                 Sign out
                             </a>
                         </li>
@@ -77,7 +77,7 @@ const NavbarComponent = () => {
         <div className="container">
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/write" element={<WriteBlog />} />
+            <Route path="/write" element={<WriteBlogComponent />} />
             <Route path="/login" element={<Login setIsLogin={setIsLogin} isLogin={isLogin}/>} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/account" element={<Signup />} />

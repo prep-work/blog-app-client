@@ -1,0 +1,213 @@
+.blog-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 55em;
+    min-width: 40em;
+}
+
+.blog-content {
+    margin-top: 3em;
+}
+
+.blog-title {
+    /* your styles */
+}
+
+.blog-description {
+    margin-top: .85em;
+    font-weight:normal;
+    color: grey;
+}
+
+.blog-author {
+    margin-top: 2.5em;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.blog-avatar {
+    height: 3.75em;
+    width: 3.75em;
+}
+
+.blog-author-image {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+.blog-author-info {
+    margin-top: .5em;
+    margin-left: .75em;
+}
+
+.blog-author-name {
+    font-size: 1.15em;
+}
+
+.blog-published-date {
+    font-size: .90em;
+    color: grey;
+}
+
+.blog-interaction {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2em;
+    padding: .75em 0;
+    border-top: 1px solid #D3D3D3;
+    border-bottom: 1px solid #D3D3D3;
+}
+
+.blog-interaction-left-part, .blog-interaction-right-part {
+    display: flex;
+    
+}
+
+.blog-like {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 1.5em;
+}
+
+.blog-like-icon {
+    font-size: 1.5em;
+    color: grey;
+    font-weight: lighter;
+}
+
+.blog-like span {
+    margin-left: .5em;
+    font-size: 1em;
+    color: grey;
+}
+
+.blog-comment {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 2.5em;
+}
+
+.blog-comment-icon {
+    font-size: 1.5em;
+    color: grey;
+    font-weight: lighter;
+}
+
+.blog-comment span {
+    margin-left: .5em;
+    font-size: 1em;
+    color: grey;
+}
+
+.blog-bookmark, .blog-share {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 2.5em;
+}
+
+.blog-bookmark-icon, .blog-share-icon {
+    font-size: 1.60em;
+    color: grey;
+    font-weight: lighter;
+}
+
+.blog-share-icon {
+    font-size: 1.5em;
+    margin-right: 1.5em;
+}
+
+.blog-empty {
+    /* your styles */
+}
+
+.blog-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 55em;
+}
+
+
+.blog-image-large {
+    max-width: 55em;
+    object-fit: contain;
+}
+
+.blog-content-section p{
+    font-size: 1.25em;
+    margin-top: 2em;
+    text-indent: 1.5em;
+    line-height: 1.75em;
+    word-spacing: .10em;
+}
+
+/* style={{marginTop: "20px" , borderTop: "1px solid #D3D3D3"}} */
+.blog-comments-section {
+    margin-top: 2em;
+    border-top: 1px solid #D3D3D3;
+}
+
+.blog-comments-section h4 {
+    margin-top: .5em;
+}
+
+.blog-comment-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-input {
+    width: 100%;
+}
+
+.blog-comment-button {
+    margin-top: .5em;
+    margin-right: 1em;
+}
+
+.cancel-comment-button {
+    float: right;
+    margin-left: .5em;
+    padding: .5em 1em;
+    border: none;
+    border-radius: 50px; 
+    background-color:white; 
+    cursor: pointer;
+    font-weight:650;
+}
+.cancel-comment-button:hover {
+    background-color: rgb(180, 180, 180); 
+}
+
+.comment-button {
+    float: right;
+    padding: .5em 1em;
+    border: none;
+    border-radius: 50px; 
+    background-color: rgb(19, 35, 230); 
+    color: white; 
+    cursor: pointer;
+}
+
+.comment-button:hover {
+    background-color: rgb(19, 39, 255); 
+}
+
+.comment-button.disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.blog-comments {
+    margin-top: 2em;
+}
+
+.blog-space {
+    /* your styles */
+}

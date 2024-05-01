@@ -41,7 +41,7 @@ const Home = () => {
         <div style={{marginTop: "20px"}}>
             
             {blogPost && blogPost.map((blog, index) =>  (
-                <div className="container mb-2" key={index}>
+                <div className="" key={index}>
                     <BlogPostListComponent blog={blog}/>
                 </div>
                 
