@@ -14,15 +14,35 @@ import { TbChecklist } from "react-icons/tb";
 import MyBlogComponent from '../UserBlogComponent/UserBlogComponent';
 import EditBlogPostComponent from '../EditBlogPostComponent/EditBlogPostComponent';
 import WriteBlogDetailsComponent from '../WriteBlogDetailsComponent/WriteBlogDetailsComponent';
+import axios from 'axios';
+import useUserContext from '../../hooks/useUserContext';
 
 
 const NavbarComponent = () => {
-    const sessionID = localStorage.getItem("SessionID")
-    const [isLogin, setIsLogin] = useState(sessionID !== "true")
+    const { isLoggedIn, setIsLoggedIn, setUserProfile } = useUserContext()
 
     const handleSignout = () => {
-        localStorage.removeItem('SessionID')
-        window.location.href = '/login'
+        axios
+            .get(
+                    'http://localhost:3500/api/v1/user/logout',
+                    {
+                        withCredentials: true,
+                    }
+                )
+            .then((response) => {
+                if(response.status == 200) {
+                    setIsLoggedIn(false)
+                    setUserProfile(null)
+                    localStorage.removeItem('isLoggedIn')
+                    localStorage.removeItem('userProfile')
+                    alert('Successfully Logged out')
+                    location.reload()
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        
     }
 
   return (
@@ -33,43 +53,46 @@ const NavbarComponent = () => {
             <Link className="navbar-brand" to="/">Home</Link>
             <div className="d-flex">
               <ul className="navbar-nav">
-                {
-                    !isLogin && 
-                    <li className="nav-item">
-                    <Link className="nav-link" to="/login" style={{fontSize: "18px"}}>Login</Link>
-                    </li>
-                }               
+
                 <li className="nav-item">
                   <Link className="nav-link" to="/write" style={{fontSize: "18px"}}><BsPencilSquare /> Write</Link>
                 </li>
-                <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle flex justify-content-center align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{fontSize: "18px"}}>
-                    <MdOutlineAccountCircle style={{ fontSize: "22px" }}/>  Account
-                    </a>
-                    <ul className="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
-                            <RiAccountBoxLine style={{ fontSize: "22px" }}/>  Profile
-                            </a>
+                {
+                    isLoggedIn 
+                        ?
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle flex justify-content-center align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{fontSize: "18px"}}>
+                                <MdOutlineAccountCircle style={{ fontSize: "22px" }}/>  Account
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a className={`dropdown-item ${!isLoggedIn ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
+                                        <RiAccountBoxLine style={{ fontSize: "22px" }}/>  Profile
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a className={`dropdown-item ${!isLoggedIn ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
+                                        <MdOutlineLibraryBooks style={{ fontSize: "22px" }}/>  Library
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a className={`dropdown-item ${!isLoggedIn ? 'disabled-link' : ''}`} href="/my-blog" style={{fontSize: "18px"}}>
+                                        <TbChecklist style={{ fontSize: "22px" }}/>  My BlogPost
+                                        </a>
+                                    </li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li>
+                                        <a className={`dropdown-item ${!isLoggedIn ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}} onClick={handleSignout}>
+                                            Sign out
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        :
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/login" style={{fontSize: "18px"}}>Login</Link>
                         </li>
-                        <li>
-                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}}>
-                            <MdOutlineLibraryBooks style={{ fontSize: "22px" }}/>  Library
-                            </a>
-                        </li>
-                        <li>
-                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="/my-blog" style={{fontSize: "18px"}}>
-                            <TbChecklist style={{ fontSize: "22px" }}/>  My BlogPost
-                            </a>
-                        </li>
-                        <li><hr className="dropdown-divider" /></li>
-                        <li>
-                            <a className={`dropdown-item ${!isLogin ? 'disabled-link' : ''}`} href="#" style={{fontSize: "18px"}} onClick={handleSignout}>
-                                Sign out
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                }
 
               </ul>
             </div>
@@ -79,7 +102,7 @@ const NavbarComponent = () => {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/write" element={<WriteBlogComponent />} />
-            <Route path="/login" element={<Login setIsLogin={setIsLogin} isLogin={isLogin}/>} />
+            <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/account" element={<Signup />} />
             <Route path="/blog" element={<BlogComponent />} />

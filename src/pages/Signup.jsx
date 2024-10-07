@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import {Link} from 'react-router-dom'
+import useUserContext from '../hooks/useUserContext'
 
 const Signup = () => {
+
+    const { setIsLoggedIn, setUserProfile } = useUserContext()
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [profileImage, setProfileImage] = useState(null)
@@ -18,7 +22,6 @@ const Signup = () => {
     }
 
     const profileImageHandler = (event) => {
-        console.log(event.target.files[0])
         setProfileImage(event.target.files[0])
     }
 
@@ -38,18 +41,31 @@ const Signup = () => {
         formData.append('email', email);
         formData.append('password', password);
         formData.append('image', profileImage);
-        console.log(formData)
         axios
-            .post(`http://localhost:3500/api/v1/user/signup`, formData)
+            .post(
+                    `http://localhost:3500/api/v1/user/signup`, 
+                    formData,
+                    {
+                        withCredentials: true
+                    }
+                )
             .then((response) => {
-                console.log(response.data)
-                if(response.data.code === 201) {
+                if(response.status === 201) {
+                    setIsLoggedIn(true)
+                    setUserProfile(response.data.userData)
+                    localStorage.setItem('isLoggedIn', true)
+                    localStorage.setItem('userProfile', JSON.stringify(response.data.userData))
                     alert(`${response.data.message} !`)
-                    window.location.href = '/login'
+                    window.location.href = '/'
                 }
             })
             .catch((error) => {
-                alert(`Status : ${error.response.status} - ${error.response.data.message}`)
+                if(error.response.status == 409) {
+                    alert(`Error: ${error.response.data.message}`)
+                }
+                if(error.response.status == 500) {
+                    alert('Something went wrong, try again later')
+                }
             })
     }
 
