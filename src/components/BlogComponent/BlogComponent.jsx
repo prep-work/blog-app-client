@@ -16,6 +16,7 @@ import CommentSectionComponent from '../CommentSectionComponent/CommentSectionCo
 
 
 const BlogComponent = () => {
+
     let location = useLocation()
     const {blogData} = location.state || {}
     const createdAt = (blogData.createdAt).split('T')[0]
@@ -92,7 +93,7 @@ const BlogComponent = () => {
 
     const handleScrollToComments = () => {
         window.scrollTo({
-            top: commentSectionRef.current.offsetTop + 1000,
+            top: commentSectionRef.current.offsetTop ,
             behavior: "smooth"
           })
     }
@@ -124,12 +125,16 @@ const BlogComponent = () => {
             )
         .then((response) => {
             if(response.data && response.data.code == 201) {
-                console.log('Comment updated successfully')
+                window.location.reload()
             }
         })
         .catch((error) => {
             alert(`Status : ${error}`)
         })
+    }
+
+    const handleCancelComment = () => {
+        setCommentText('')
     }
 
     return (
@@ -184,28 +189,29 @@ const BlogComponent = () => {
                 </div>
 
                 {/* Blog image  */}
-                <div className="blog-image-container" style={{marginTop: "30px"}} ref={commentSectionRef}>
+                <div className="blog-image-container" style={{marginTop: "30px"}} >
                     <img src={blogData.image} className="blog-image-large" />
                 </div>
 
                 {/* Blog content  */}
                 <div className="blog-content-section" style={{marginTop: "30px"}}>
-                    <p>{blogData.blogContent}</p>
+                    <div className="content" dangerouslySetInnerHTML={{ __html: blogData.blogContent }}></div>
+                    {/* <p>{blogData.blogContent}</p> */}
                 </div>
 
                 {/* comments */}
-                <div className="blog-comments-section" >
+                <div className="blog-comments-section" ref={commentSectionRef}>
                     <h4>
                         Comments
                     </h4>
                 </div>
 
-                <div className="blog-comment-input">
+                <div className="blog-comment-input" >
                     <div className="blog-comment-textarea">
-                        <textarea className="comment-input" rows="3" placeholder="Write your comment" value={commentText} onChange={handleCommentText}></textarea>
+                        <textarea className="comment-input" rows="1" placeholder="Write your comment" value={commentText}onChange={handleCommentText}></textarea>
                     </div>
                     <div className="blog-comment-button">
-                        <button className="cancel-comment-button" onClick={handleCommentPost}>Cancel</button>
+                        <button className="cancel-comment-button" onClick={handleCancelComment}>Cancel</button>
                         <button className={`comment-button ${commentText.length === 0 ? 'disabled' : ''}`} onClick={handleCommentPost} disabled={commentText.length === 0}>Comment</button>
                     </div>
                 </div>

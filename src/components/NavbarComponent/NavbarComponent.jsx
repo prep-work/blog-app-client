@@ -6,13 +6,14 @@ import './NavbarComponent.css';
 import Signup from '../../pages/Signup';
 import WriteBlogComponent from '../WriteBlogComponent/WriteBlogComponent';
 import BlogComponent from '../BlogComponent/BlogComponent';
-
+import { BsPencilSquare } from "react-icons/bs"
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { RiAccountBoxLine } from "react-icons/ri";
 import { TbChecklist } from "react-icons/tb";
 import MyBlogComponent from '../UserBlogComponent/UserBlogComponent';
 import EditBlogPostComponent from '../EditBlogPostComponent/EditBlogPostComponent';
+import WriteBlogDetailsComponent from '../WriteBlogDetailsComponent/WriteBlogDetailsComponent';
 
 
 const NavbarComponent = () => {
@@ -39,7 +40,7 @@ const NavbarComponent = () => {
                     </li>
                 }               
                 <li className="nav-item">
-                  <Link className="nav-link" to="/write" style={{fontSize: "18px"}}>Write</Link>
+                  <Link className="nav-link" to="/write" style={{fontSize: "18px"}}><BsPencilSquare /> Write</Link>
                 </li>
                 <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle flex justify-content-center align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{fontSize: "18px"}}>
@@ -84,6 +85,7 @@ const NavbarComponent = () => {
             <Route path="/blog" element={<BlogComponent />} />
             <Route path="/my-blog" element={<MyBlogComponent />} />
             <Route path="/my-blog/edit" element={<EditBlogPostComponent />} />
+            <Route path="/write-details" element={<WriteBlogDetailsComponent />} />
           </Routes>
         </div>
       </div>

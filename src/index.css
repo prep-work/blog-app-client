@@ -6,3 +6,14 @@
 
 }
 
+.container {
+    min-width: 55em;
+}
+
+.container-login{
+    width: 55em;
+}
+
+.container-signup{
+    width: 55em;
+}

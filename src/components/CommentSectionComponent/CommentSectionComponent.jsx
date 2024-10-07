@@ -16,6 +16,7 @@ const CommentSectionComponent = ({comment}) => {
 
     const [replyText, setReplyText] = useState('')
     const [isReplying, setIsReplying] = useState(false)
+    const [isEditingComment, setIsEditingComment] = useState(false)
     const [replyComments, setReplyComments] = useState([])
     const [isShowingReplyComments, setIsShowingReplyComments] = useState(false)
     // const [isPopoverVisible, setIsPopoverVisible] = useState(false);
@@ -31,7 +32,17 @@ const CommentSectionComponent = ({comment}) => {
     }
 
     const handleEditCommentClick = () => {
-        console.log(comment._id)
+        setReplyText(comment.text)
+        setIsEditingComment(true)
+    }
+
+    const handleCommentEditCancel = () => {
+        setReplyText('')
+        setIsEditingComment(false)
+    }
+
+    const handleCommentEditSave = () => {
+
     }
 
     const handleDeleteCommentClick = () => {
@@ -95,7 +106,7 @@ const CommentSectionComponent = ({comment}) => {
             if(response.data && response.data.code == 201) {
                 console.log(response.data)
                 console.log('Comment updated successfully')
-                // setReplyComments(response.data.data)
+                window.location.reload()
             }
         })
         .catch((error) => {
@@ -109,9 +120,44 @@ const CommentSectionComponent = ({comment}) => {
                 <div className="comment-author-image">
                     <img src={comment.author.image} alt="Profile picture of the commented person" />
                 </div>
-                <div className="comment-author-info">
-                    <p className="comment-author-name">{comment.author.firstName}</p>
-                    <p className="comment-text">{comment.text}</p>
+                <div className="comment-author">
+                    <div className="comment-author-options">
+                        <div>
+                            <p className="comment-author-name">{comment.author.firstName}</p>
+                            <p className="comment-text">{comment.text}</p>
+                        </div>
+                        <div className="comment-options-more">
+                            <button className="btn btn-secondary bg-body border-white" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <HiOutlineDotsHorizontal style={{color: "black"}}/>
+                            </button>
+                            <ul className="dropdown-menu p-0" aria-labelledby="dropdownMenu2">
+                                {comment.isUserComment ?
+                                    <div className="comment-options">
+                                        <li>
+                                            <button type="button" className="comment-edit-button" onClick={handleEditCommentClick}>
+                                                <p><MdEdit /><span>Edit</span></p>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type='button' className="comment-delete-button" onClick={handleDeleteCommentClick}>
+                                                <p><ImBin2 /><span>Delete</span></p>
+                                            </button>
+                                        </li>
+                                    </div>
+
+                                :
+
+                                    <div className="comment-report-section">
+                                        <button type="button" className="comment-report-button">
+                                            <p><LuFlag /></p>
+                                            <p>Report</p>
+                                        </button>
+                                    </div>
+                                } 
+                            </ul>
+                        </div>
+                    </div>
+
                     <div className="comment-actions">
                             <div onClick={handleCommentLikeClick} className="comment-like">
                                 <FaRegThumbsUp />
@@ -124,7 +170,7 @@ const CommentSectionComponent = ({comment}) => {
                         {isReplying && (
                         <div className="comment-reply-section" >
                             <div className="comment-reply-form" >
-                                <textarea rows="2" style={{ width: "100%", padding: "8px", boxSizing: "border-box" }} value={replyText} onChange={handleReplyText} placeholder='Write reply comment' />
+                                <textarea rows="1" className="comment-input" value={replyText} onChange={handleReplyText} placeholder='Write reply comment' />
                             </div>
                             <div className="col-md-12 mt-2 d-flex justify-content-end">
                                 <div className='ml-2'>
@@ -136,7 +182,59 @@ const CommentSectionComponent = ({comment}) => {
                             </div>
 
                         </div>
-                    )}
+                        )}
+
+                        {isEditingComment && (
+                            <div className="comment-reply-section" >
+                                <div className="comment-reply-form" >
+                                    <textarea rows="1" className="comment-input" value={replyText} onChange={handleReplyText} placeholder='Write reply comment' />
+                                </div>
+                                <div className="col-md-12 mt-2 d-flex justify-content-end">
+                                    <div className='ml-2'>
+                                        <button className={`comment-button ${replyText.length === 0 ? 'disabled' : ''}`} onClick={handleCommentEditSave} disabled={replyText.length === 0}>save</button>
+                                    </div>
+                                    <div className="ml-2">
+                                        <button className="cancel-comment-button" onClick={handleCommentEditCancel} style={{ marginRight: '8px' }}>Cancel</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        )}  
+
+                {/* <div className='col-md-1'>
+                    <div>
+                        <button className="btn btn-secondary bg-body border-white" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <HiOutlineDotsHorizontal style={{color: "black"}}/>
+                        </button>
+                        <ul className="dropdown-menu p-0" aria-labelledby="dropdownMenu2" style={{ minWidth: "6rem", minHeight: "2rem"}}>
+                            {comment.isUserComment ?
+                                <div>
+                                    <li>
+                                        <button type="button" className="btn btn-light d-flex justify-content-start align-items-center p-0 border-0 w-100 h-100" onClick={handleEditCommentClick}>
+                                            <p style={{ marginLeft: ".5em", marginRight: ".5em" }}><MdEdit /></p>
+                                            <p style={{ fontSize: "15px"}}>Edit</p>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type='button' className='btn btn-light d-flex justify-content-start align-items-center p-0 border-0 w-100' onClick={handleDeleteCommentClick}>
+                                            <p style={{ marginLeft: ".5em", marginRight: ".5em", fontSize: "15px"}}><ImBin2 /></p>
+                                            <p style={{ fontSize: "15px"}}>Delete</p>
+                                        </button>
+                                    </li>
+                                </div>
+
+                            :
+
+                                <div className='d-flex justify-content-start align-items-center'>
+                                    <button type="button" className="btn btn-light d-flex justify-content-start align-items-center p-0 border-0 w-100" style={{ height: "100%", paddingTop: "15px"}}>
+                                        <p style={{ marginLeft: ".5em", marginRight: ".5em" }}><LuFlag /></p>
+                                            <p style={{ fontSize: "15px"}}>Report</p>
+                                    </button>
+                                </div>
+                            } 
+                        </ul>
+                    </div>
+                </div> */}
 
                         {comment.numberOfReplies > 0 && 
                             <button className='reply-button' onClick={handleShowReplyCommentSubmit}>  

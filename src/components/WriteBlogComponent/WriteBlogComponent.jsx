@@ -1,101 +1,68 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import axios from 'axios'
-import useBlogContext from '../../hooks/useBlogContext'
+import React, { useCallback, useContext, useState } from 'react'
 import Quill from 'quill'
 import "quill/dist/quill.snow.css"
 import "./WriteBlogComponent.css"
+import { useNavigate } from 'react-router-dom'
+import useBlogContext from '../../hooks/useBlogContext'
 
-const WriteBlog = () => {
+const WriteBlogComponent = () => {
 
-    const sessionID = localStorage.getItem('SessionID')
-    if(!sessionID) {
-        window.location.href = '/login'
-    }
+    const navigate = useNavigate()
+    const { blogData, setBlogData } = useBlogContext()
+    const [ title, setTitle ] = useState(blogData.title)
+    const [blogContent, setBlogContent] = useState(blogData.blogContent)
 
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [content, setContent] = useState('')
-    const [profileImage, setProfileImage] = useState(null)
+    const toolbarOptions = [
+        ["bold", "italic", "underline"],
+        ["link"],
+        [{list: "ordered"}, {list: "bullet"}],
+        [{script: "sub"}, {script: "super"}],
+    ];
+    
 
-    const handleTitleChange = (event) => {
+    const wrapperRef = useCallback( (wrapper) => {
+        if (wrapper == null) return
+        wrapper.innerHTML = blogData.blogContent
+        const editor = document.createElement('div')
+        wrapper.append(editor)
+        const quill = new Quill(".write-blog-container", {theme: "snow", modules: { toolbar: toolbarOptions}, placeholder: "Write the Blog here..."})
+
+        quill.on('text-change', () => {
+            setBlogContent(quill.root.innerHTML); 
+        })
+    }, [])
+
+    const handleBlogTitleChange = (event) => {
         setTitle(event.target.value)
     }
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value)
+    const handlePublish = () => {
+        console.log(title)
+        console.log(blogContent)
+        setBlogData(prevValue => ({
+            ...prevValue,
+            title,
+            blogContent
+        }))
+        navigate("/write-details")
     }
 
-    const handleContentChange = (event) => {
-        setContent(event.target.value)
-    }
-
-    const handleImageChange = (event) => {
-        // Handle profile image upload
-        const imageFile = event.target.files[0]
-        setProfileImage(imageFile)
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('blogContent', content);
-        formData.append('image', profileImage);
-        const sessionID = localStorage.getItem('SessionID')
-        console.log(formData)
-        axios
-            .post(
-                `http://localhost:3500/api/v1/user/newPost`, 
-                formData,
-                {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-            )
-        .then((response) => {
-            if(response.data.code === 201) {
-                alert(`${response.data.message} !`)
-                window.location.href = '/'
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error.response.status} - ${error.response.data.message}`)
-        })
-    }
-
-    return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <h2 className="text-white mb-4">Write Your Blog</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="title" className="form-label"><h5>Title</h5></label>
-                            <input type="text" className="form-control" id="title" value={title} onChange={handleTitleChange} required />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="description" className="form-label"><h5>Description</h5></label>
-                            <input type="text" className="form-control" id="description" value={description} onChange={handleDescriptionChange} required />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="profileImage" className="form-label"><h5>Blog Cover Image</h5></label>
-                            <input type="file" className="form-control" id="profileImage" onChange={handleImageChange} />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="content" className="form-label"><h5>Content</h5></label>
-                            <textarea className="form-control" id="content" rows="8" value={content} onChange={handleContentChange} required></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-primary">Publish</button>
-                    </form>
-                </div>
-            </div>
-            
+  return (
+    <div className="write-blog">
+        <div className="write-blog-header">
+            <div>Written By </div>
+            <button onClick={handlePublish}>Publish</button>
         </div>
-        
-    )
+        <div className="write-blog-title">
+            <input type="text" placeholder="Title" value={title} onChange={handleBlogTitleChange}/>
+        </div>
+        <div className="quill-blog">
+            <div className="write-blog-container" ref={wrapperRef}></div>
+        </div>
+        {/* <div dangerouslySetInnerHTML={{ __html: editorContent }} /> */}
+    </div>
+
+  )
 }
 
-export default WriteBlog
+export default WriteBlogComponent

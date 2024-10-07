@@ -1,24 +1,32 @@
 import { createContext, useState } from "react";
 
-const BlogContent = createContext({})
+const BlogContext = createContext({})
 
 export const BlogProvider = ({ children }) => {
 
-    const [dummy, setDummy] = useState('first initial value')
     const [ blogPost, setBlogPost] = useState([])
+    const [authorData, setAuthorData] = useState({})
+    const [blogData, setBlogData] = useState({
+        title: "",
+        description: "",
+        blogContent: "",
+        image: null,
+    })
 
     return (
-        <BlogContent.Provider
+        <BlogContext.Provider
             value={{
-                dummy,
-                setDummy,
                 blogPost,
-                setBlogPost
+                setBlogPost,
+                authorData,
+                setAuthorData,
+                blogData,
+                setBlogData
             }}
         >
             {children}
-        </BlogContent.Provider>
+        </BlogContext.Provider>
     )
 }
 
-export default BlogContent
+export default BlogContext

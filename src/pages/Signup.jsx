@@ -40,21 +40,21 @@ const Signup = () => {
         formData.append('image', profileImage);
         console.log(formData)
         axios
-        .post(`http://localhost:3500/api/v1/user/signup`, formData)
-        .then((response) => {
-            console.log(response.data)
-            if(response.data.code === 201) {
-                alert(`${response.data.message} !`)
-                window.location.href = '/login'
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error.response.status} - ${error.response.data.message}`)
-        })
+            .post(`http://localhost:3500/api/v1/user/signup`, formData)
+            .then((response) => {
+                console.log(response.data)
+                if(response.data.code === 201) {
+                    alert(`${response.data.message} !`)
+                    window.location.href = '/login'
+                }
+            })
+            .catch((error) => {
+                alert(`Status : ${error.response.status} - ${error.response.data.message}`)
+            })
     }
 
   return (
-    <div className="container mt-5">
+    <div className="container-signup mt-5">
         <div className="row justify-content-center">
             <div className="col-md-6 ">
             <h1 className='mb-4'>Sign up</h1>

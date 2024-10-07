@@ -2,9 +2,11 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
+import useBlogContext from '../hooks/useBlogContext'
 
 const Login = ({setIsLogin, isLogin}) => {
 
+    const { setAuthorData } = useBlogContext()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
@@ -42,6 +44,7 @@ const Login = ({setIsLogin, isLogin}) => {
                 })
                 setIsLogin(true)
                 const sessionID = response.data.data[0]
+                setAuthorData(response.data.data[1])
                 localStorage.setItem('SessionID', sessionID)
                 alert(`Welcome ${response.data.message}  !`)
                 // window.location.href = '/'
@@ -55,7 +58,7 @@ const Login = ({setIsLogin, isLogin}) => {
 
   return (
     <React.Fragment>
-        <div className="container mt-5">
+        <div className="container-login mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 ">
                     <h1 className='mb-4'>Login</h1>
