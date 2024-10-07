@@ -10,18 +10,18 @@ const Home = () => {
     const fetchAllPosts = async () => {
         axios
             .get(
-                'http://localhost:3500/api/v1/user/getAllPosts',
+                'http://localhost:3500/api/v1/blog/getAllPosts',
                 {
                     withCredentials: true,
                 }
             )
-        .then((response) => {
-            console.log(response.data.data)
-            setBlogPost(response.data.data)
-        })
-        .catch((error) => {
-            alert(error.message)
-        })
+            .then((response) => {
+                console.log(response.data.data)
+                setBlogPost(response.data.data)
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
         
     }
 

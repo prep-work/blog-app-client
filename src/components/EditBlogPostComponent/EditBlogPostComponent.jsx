@@ -48,25 +48,22 @@ const EditBlogPostComponent = () => {
         console.log(formData)
         axios
             .put(
-                `http://localhost:3500/api/v1/user/editBlog/${blogData._id}`, 
+                `http://localhost:3500/api/v1/blog/editBlog/${blogData._id}`, 
                 formData,
                 {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
-                        'Content-Type': 'multipart/form-data'
-                    }
+                    withCredentials: true,
                 }
             )
-        .then((response) => {
-            console.log(response.data)
-            if(response.data.code === 201) {
-                alert(`${response.data.message} !`)
-                window.location.href = '/my-blog'
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error.response.status} - ${error.response.data.message}`)
-        })
+            .then((response) => {
+                console.log(response.data)
+                if(response.data.code === 201) {
+                    alert(`${response.data.message} !`)
+                    window.location.href = '/my-blog'
+                }
+            })
+            .catch((error) => {
+                alert(`Status : ${error.response.status} - ${error.response.data.message}`)
+            })
     }
     return (
         <div className="container">

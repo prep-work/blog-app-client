@@ -20,11 +20,9 @@ const AuthorsBlogPostListComponent = ({ blog }) => {
 
         axios
             .delete(
-                `http://localhost:3500/api/v1/user/deleteBlog/${blog._id}`,
+                `http://localhost:3500/api/v1/blog/deleteBlog/${blog._id}`,
                 {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
-                    }
+                    withCredentials: true,
                 }
             )
             .then((response) => {

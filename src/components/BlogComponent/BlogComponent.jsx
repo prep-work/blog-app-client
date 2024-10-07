@@ -12,6 +12,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { FaRegComment } from "react-icons/fa"
 import { FiShare2 } from "react-icons/fi"
 import CommentSectionComponent from '../CommentSectionComponent/CommentSectionComponent'
+import useUserContext from '../../hooks/useUserContext'
 
 
 
@@ -38,56 +39,54 @@ const BlogComponent = () => {
         sendLikeStatus()
     }
 
-    const sessionID = localStorage.getItem('SessionID')
-
     const sendLikeStatus = () => {
         axios
             .post(
-                `http://localhost:3500/api/v1/user/editLike/${blogData._id}`,
-                {
-                    isBlogLiked
-                },
-                {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
+                    `http://localhost:3500/api/v1/blog/editLike/${blogData._id}`,
+                    {
+                        isBlogLiked
+                    },
+                    {
+                        withCredentials: true,
                     }
-                }
             )
-        .then((response) => {
-            if(response.data && response.data.code == 201) {
-                toast.success('Liked', {
-                    position: 'bottom-left'
-                })
-                console.log('Updated successfully')
-            }
-            if(response.data && response.data.code == 200) {
-                toast.error('Disliked', {
-                    position: 'bottom-left'
-                })
-                console.log('Updated successfully')
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error}`)
-        })
+            .then((response) => {
+                if(response.data && response.data.code == 201) {
+                    toast.success('Liked', {
+                        position: 'bottom-left'
+                    })
+                    console.log('Updated successfully')
+                }
+                if(response.data && response.data.code == 200) {
+                    toast.error('Disliked', {
+                        position: 'bottom-left'
+                    })
+                    console.log('Updated successfully')
+                }
+            })
+            .catch((error) => {
+                alert(`Status : ${error}`)
+            })
     }
 
     useEffect(() => {
         axios
-        .get(`http://localhost:3500/api/v1/user/blogDetails/${blogData._id}`,
-            {
-                headers: {
-                    'SessionID': 'SessionID=' + sessionID,
+            .get(
+                `http://localhost:3500/api/v1/blog/blogDetails/${blogData._id}`,
+                {
+                    withCredentials: true,
                 }
-            }
-        )
-        .then((response) => {
-            if(response.status == 200) {
-                setBlogLikeCount(response.data.data[0].likeCount)
-                setIsBlogLiked(response.data.data[0].isUserLikedPost)
-                setComments(response.data.data[0].comments)
-            }
-        })
+            )
+            .then((response) => {
+                if(response.status == 200) {
+                    setBlogLikeCount(response.data.data[0].likeCount)
+                    setIsBlogLiked(response.data.data[0].isUserLikedPost)
+                    setComments(response.data.data[0].comments)
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
     }, [])
 
@@ -113,24 +112,22 @@ const BlogComponent = () => {
     const handleCommentPost = () => {
         axios
             .post(
-                `http://localhost:3500/api/v1/user/addComment/${blogData._id}`,
+                `http://localhost:3500/api/v1/blog/addComment/${blogData._id}`,
                 {
                     commentText
                 },
                 {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
-                    }
+                    withCredentials: true,
                 }
             )
-        .then((response) => {
-            if(response.data && response.data.code == 201) {
-                window.location.reload()
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error}`)
-        })
+            .then((response) => {
+                if(response.data && response.data.code == 201) {
+                    window.location.reload()
+                }
+            })
+            .catch((error) => {
+                alert(`Status : ${error}`)
+            })
     }
 
     const handleCancelComment = () => {

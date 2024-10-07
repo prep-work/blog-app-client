@@ -65,22 +65,20 @@ const CommentSectionComponent = ({comment}) => {
         if(!isShowingReplyComments && replyComments.length < comment.numberOfReplies) {
             axios
                 .get(
-                    `http://localhost:3500/api/v1/user/replyComment/${comment._id}`,
+                    `http://localhost:3500/api/v1/blog/replyComment/${comment._id}`,
                     {
-                        headers: {
-                            'SessionID': 'SessionID=' + sessionID,
-                        }
+                        withCredentials: true,
                     }
                 )
-            .then((response) => {
-                if(response.data.code == 200) {
-                    console.log(response.data.data)
-                    setReplyComments(response.data.data)
-                }
-            })
-            .catch((error) => {
-                alert(error.message)
-            })
+                .then((response) => {
+                    if(response.data.code == 200) {
+                        console.log(response.data.data)
+                        setReplyComments(response.data.data)
+                    }
+                })
+                .catch((error) => {
+                    alert(error.message)
+                })
         }
         
     }
@@ -90,28 +88,26 @@ const CommentSectionComponent = ({comment}) => {
         setReplyText('')
         setIsReplying(false)
         axios
-        .patch(
-            `http://localhost:3500/api/v1/user/addReplyComment/${comment._id}`,
-            {
-                text: replyText,
-                parentComment: comment._id
-            },
-            {
-                headers: {
-                    'SessionID': 'SessionID=' + sessionID,
+            .patch(
+                `http://localhost:3500/api/v1/blog/addReplyComment/${comment._id}`,
+                {
+                    text: replyText,
+                    parentComment: comment._id
+                },
+                {
+                    withCredentials: true,
                 }
-            }
-        )
-        .then((response) => {
-            if(response.data && response.data.code == 201) {
-                console.log(response.data)
-                console.log('Comment updated successfully')
-                window.location.reload()
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error}`)
-        })
+            )
+            .then((response) => {
+                if(response.data && response.data.code == 201) {
+                    console.log(response.data)
+                    console.log('Comment updated successfully')
+                    window.location.reload()
+                }
+            })
+            .catch((error) => {
+                alert(`Status : ${error}`)
+            })
     }
 
     return (

@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
     const storedUserProfile = localStorage.getItem('userProfile')
 
     const [ isLoggedIn, setIsLoggedIn ] = useState(storedIsLoggedIn == 'true')
-    const [ userProfile, setUserProfile ] = useState(storedUserProfile)
+    const [ userProfile, setUserProfile ] = useState(storedUserProfile ? JSON.parse(storedUserProfile) : null)
 
 
     const values = {

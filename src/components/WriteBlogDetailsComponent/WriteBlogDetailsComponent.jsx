@@ -44,24 +44,21 @@ const WriteBlogDetailsComponent = () => {
         const sessionID = localStorage.getItem('SessionID')
         axios
             .post(
-                `http://localhost:3500/api/v1/user/newPost`, 
+                `http://localhost:3500/api/v1/blog/newPost`, 
                 formData,
                 {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
-                        'Content-Type': 'multipart/form-data'
-                    }
+                    withCredentials: true,
                 }
             )
-        .then((response) => {
-            if(response.data.code === 201) {
-                alert(`${response.data.message} !`)
-                window.location.href = '/'
-            }
-        })
-        .catch((error) => {
-            alert(`Status : ${error.response.status} - ${error.response.data.message}`)
-        })
+            .then((response) => {
+                if(response.data.code === 201) {
+                    alert(`${response.data.message} !`)
+                    window.location.href = '/'
+                }
+            })
+            .catch((error) => {
+                alert(`Status : ${error.response.status} - ${error.response.data.message}`)
+            })
     }
 
     return (

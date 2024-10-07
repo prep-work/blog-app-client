@@ -29,19 +29,19 @@ const NavbarComponent = () => {
                         withCredentials: true,
                     }
                 )
-            .then((response) => {
-                if(response.status == 200) {
-                    setIsLoggedIn(false)
-                    setUserProfile(null)
-                    localStorage.removeItem('isLoggedIn')
-                    localStorage.removeItem('userProfile')
-                    alert('Successfully Logged out')
-                    location.reload()
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+                .then((response) => {
+                    if(response.status == 200) {
+                        setIsLoggedIn(false)
+                        setUserProfile(null)
+                        localStorage.removeItem('isLoggedIn')
+                        localStorage.removeItem('userProfile')
+                        alert('Successfully Logged out')
+                        location.reload()
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         
     }
 

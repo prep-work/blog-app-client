@@ -9,19 +9,17 @@ const MyBlogComponent = () => {
         const sessionID = localStorage.getItem('SessionID')
         axios
             .get(
-                'http://localhost:3500/api/v1/user/getAllUserPosts',
+                'http://localhost:3500/api/v1/blog/getAllUserPosts',
                 {
-                    headers: {
-                        'SessionID': 'SessionID=' + sessionID,
-                    }
+                    withCredentials: true
                 }
             )
-        .then((response) => {
-            setBlogPost(response.data.data)
-        })
-        .catch((error) => {
-            alert(error.message)
-        })
+            .then((response) => {
+                setBlogPost(response.data.data)
+            })
+            .catch((error) => {
+                alert(error.message)
+            })
         
     }
 
